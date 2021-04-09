@@ -42,6 +42,7 @@ namespace ConsoleApp1
         {
             return this.MemberwiseClone();
         }
+
         /// <summary>
         /// 深拷贝（通过反射，拿到所有属性的值）
         /// </summary>
@@ -50,7 +51,7 @@ namespace ConsoleApp1
         /// <returns></returns>
         public T DeepCopy<T>(T obj)
         {
-            //值类型直接返回
+            //值类型或者string类型直接返回
             if (obj is string || obj.GetType().IsValueType)
                 return obj;
 
