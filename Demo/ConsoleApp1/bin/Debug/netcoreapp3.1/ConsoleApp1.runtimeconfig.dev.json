@@ -1,8 +1,0 @@
-{
-  "runtimeOptions": {
-    "additionalProbingPaths": [
-      "C:\\Users\\tianlinqing\\.dotnet\\store\\|arch|\\|tfm|",
-      "C:\\Users\\tianlinqing\\.nuget\\packages"
-    ]
-  }
-}
