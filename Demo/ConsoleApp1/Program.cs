@@ -28,6 +28,13 @@ namespace ConsoleApp1
         }
     }
 
+    public enum Enum1
+    {
+        Source1=1,
+        Source2=2,
+        Source3=3
+    }
+
     public class Test1
     {
         public string Name { get; set; }
