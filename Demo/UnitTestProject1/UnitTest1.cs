@@ -5,10 +5,10 @@ using System.Diagnostics;
 namespace UnitTestProject1
 {
     /// <summary>
-    /// 寻找大于左面左右且小于右边所有的数
+    /// 字节算法题：寻找大于等于左面所有且小于右边所有的数
     /// 例如：1，2，4，3，5，6
     /// 结果：5
-    /// 参考：https://blog.csdn.net/u013677156/article/details/37904319
+    /// 解决方案可参考文档：https://blog.csdn.net/u013677156/article/details/37904319
     /// </summary>
     [TestClass]
     public class CaculateMiddleNumber
