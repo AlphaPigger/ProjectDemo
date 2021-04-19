@@ -50,6 +50,26 @@ namespace UnitTestProject1
                 Trace.WriteLine($"总共执行了 {_DEBUGCOUNT} 次循环 \t 计算结果：{string.Join(",", result)}, ");
             }
 
+            Trace.WriteLine("---以分段计算法实现V2");
+            foreach (var source in sources)
+            {
+                _DEBUGCOUNT = 0;
+
+                var result = ReturnIntArrayV2(source);
+
+                Trace.WriteLine($"总共执行了 {_DEBUGCOUNT} 次循环 \t 计算结果：{string.Join(",", result)}, ");
+            }
+
+            Trace.WriteLine("---以分段计算法实现V3");
+            foreach (var source in sources)
+            {
+                _DEBUGCOUNT = 0;
+
+                var result = ReturnIntArrayV3(source);
+
+                Trace.WriteLine($"总共执行了 {_DEBUGCOUNT} 次循环 \t 计算结果：{string.Join(",", result)}, ");
+            }
+
             Trace.WriteLine("---双层循环嵌套实现LHP");
             foreach (var source in sources)
             {
@@ -61,7 +81,7 @@ namespace UnitTestProject1
             }
         }
 
-        #region 双链表消除法
+        #region 双链表消除法 wangdong
         public IEnumerable<int> GetResult(int[] source)
         {
             LinkedList<int> result = new LinkedList<int>();
@@ -116,9 +136,11 @@ namespace UnitTestProject1
         }
         #endregion
 
-        #region 以分段计算法实现
+        #region 以分段计算法实现 tianlinqing
         /// <summary>
-        /// 找出大于前面所有数，小于后面所有数的数
+        /// 实现思路：循环里套循环，每次拿值，都去与所有前面的数和所有后面的数比较。
+        /// 缺陷：时间复杂度高 O(n*n)
+        /// 优点：思路直观
         /// </summary>
         /// <param name="input"></param>
         /// <returns></returns>
@@ -170,7 +192,106 @@ namespace UnitTestProject1
         }
         #endregion
 
-        #region 循环嵌套
+        #region 以分段计算法实现V2  tianlinqing
+        /// <summary>
+        /// 思路：在外层循环的时候，拿到当前循环值和最初的默认最大值比较，得出当前值前面的最大值，减少了为了拿到beforeMax的循环。
+        /// 缺陷：为了得到AfterMin，依然会有很多次循环，而且这种循环和外层循环是一个乘积关系，时间复杂度较高
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static List<int> ReturnIntArrayV2(int[] input)
+        {
+            var result = new List<int>();
+
+            var beforeMax = input[0];
+            var afterMin = AfterMin(input,2);
+            for (int i = 1; i < input.Length - 1; i++)
+            {
+                _DEBUGCOUNT++;
+ 
+                if (input[i] >= beforeMax && input[i] < afterMin)
+                {
+                    result.Add(input[i]);
+                }
+
+                //提前缓存最大和最小，随着索引移位，更新这两个值
+                if (input[i] >= beforeMax)
+                {
+                    beforeMax = input[i];
+                }
+                if (i!=input.Length-2&&input[i+1] == afterMin)
+                {
+                    afterMin = AfterMin(input, i + 2);
+                }
+            }
+
+            return result;
+        }
+        #endregion
+
+        #region 以分段计算法实现V3 tianlinqing
+        /// <summary>
+        /// 思路：beforeMax的确认还是沿用V2版本中思路，AfterMin的确定思路采用默认的方式，通过条件判断，如果后面出现的值小于默认的min，则按条件移除之前加入的值
+        /// 优点：时间复杂度低
+        /// </summary>
+        /// <param name="input"></param>
+        /// <returns></returns>
+        public static List<int> ReturnIntArrayV3(int[] input)
+        {
+            var result = new List<int>();
+
+            var beforeMax = input[0];
+            var afterMin = input[2];
+            if (beforeMax > afterMin)
+                return result;
+            for (int i = 1; i < input.Length - 1; i++)
+            {
+                _DEBUGCOUNT++;
+
+                var removeFlag = false;
+
+                if (input[i] >= beforeMax && input[i] < afterMin)
+                {
+                    result.Add(input[i]);
+                }
+
+                if (input[i] >= beforeMax)
+                {
+                    beforeMax = input[i];
+                }
+                if (i != input.Length - 2)
+                {
+                    removeFlag = input[i + 2] < afterMin;
+                    afterMin = input[i + 2];
+                }
+
+                if (removeFlag)
+                {
+                    Remove(result,afterMin);
+                }
+            }
+
+            return result;
+        }
+
+        private static void Remove(List<int> input,int compareValue)
+        {
+            while (input.Count > 0)
+            {
+                _DEBUGCOUNT++;
+
+                if (input[input.Count-1] >= compareValue)
+                {
+                    input.RemoveAt(input.Count-1);
+                    continue;
+                }
+
+                break;
+            }
+        }
+        #endregion
+
+        #region 循环嵌套 wangdong
         public List<int> GetResultLHP(int[] arr)
         {
             List<int> arry = new List<int>();

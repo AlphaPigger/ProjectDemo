@@ -5,7 +5,7 @@ VisualStudioVersion = 16.0.30330.147
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp1", "ConsoleApp1\ConsoleApp1.csproj", "{3AF9253D-C03F-4A7F-80C8-329817A686F4}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTestProject1", "UnitTestProject1\UnitTestProject1.csproj", "{4EC369F6-0F8B-47A2-B5E6-43C4B609466D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ByteDanceAlgorithm", "ByteDanceAlgorithm\ByteDanceAlgorithm.csproj", "{4EC369F6-0F8B-47A2-B5E6-43C4B609466D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
