@@ -44,9 +44,56 @@ namespace ConsoleApp1
             //Console.WriteLine($"执行完成:{list[0]}");
             //Console.ReadLine();
 
-            double? g = null;
-            Console.WriteLine(g.Value);
+            //double? g = null;
+            //Console.WriteLine(g.Value);
+            //Console.ReadLine();
+
+            var intArray = new int[] { 3, 2, 1, 0, 2, 3 };
+            var loopCount=0;
+            var result = GetAnyRepeatNumber(0,ref loopCount,intArray);
+            Console.WriteLine(result==null?"未找到重复数组":$"重复数字（包含但不限于）:{result},循环次数:{loopCount}");
             Console.ReadLine();
+        }
+
+        /// <summary>
+        /// 算法-一位数组
+        //题目:找出一维数组中重复的任一数字。一维数组长度为n，包含0~n-1的数字
+        //思路1：将每个数和其他数进行比较。时间复杂度O(n*n),空间复杂度O(1)
+        //思路2：利用hash表进行判断，不存在则加进hash表，存在则返回存在的数。时间复杂度O(n),空间复杂度O(n)。因为这里除了数组本身之外，还用到了一个hash表，空间复杂度为O(n)
+        //思路3：利用数组本身的特点，构思算法思路，不用将当前数与每个数进行比较，每次循环确定一个数。时间复杂度O(2n)=O(n)+O(n-1)=O(n),空间复杂度O(1)
+        /// </summary>
+        /// <param name="loopIndex"></param>
+        /// <param name="loopCount"></param>
+        /// <param name="intArray"></param>
+        /// <returns></returns>
+        public static int? GetAnyRepeatNumber(int loopIndex, ref int loopCount, int[] intArray)
+        {
+            #region 校验输入数组
+            if (intArray == null || !intArray.Any())
+                return null;
+            if (intArray.Any(item => item < 0 || item >= intArray.Length))
+                return null;
+            #endregion
+
+            for (; loopIndex < intArray.Length; loopIndex++)
+            {
+                loopCount++;
+
+                var loopItem = intArray[loopIndex];
+
+                if (loopItem == loopIndex)//如果当前数字等于其索引，则继续执行下一循环
+                    continue;
+
+                if (loopItem == intArray[loopItem])//如果相等，则此数字为重复数字，直接返回
+                    return loopItem;
+
+                //如果都不满足，则做交换，将此数字换到应该在的位置
+                intArray[loopIndex] = intArray[loopItem];//先将另外一个数换过来
+                intArray[loopItem] = loopItem;//再将当前数放对的位置
+                return GetAnyRepeatNumber(loopIndex, ref loopCount, intArray);//递归调用，传入索引点
+            }
+
+            return null;
         }
 
         /// <summary>
@@ -103,6 +150,8 @@ namespace ConsoleApp1
             return min;
         }
     }
+
+    
 
     public enum Enum1
     {
